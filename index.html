@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script src="http://static.lyrk.de/leaflet/0.7/leaflet.js"></script>
+		<script type="text/javascript" src="jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="leaflet.ajax.min.js"></script>
+		<script type="text/javascript" src="./mapillary.js"></script>
+		<link rel="stylesheet" href="http://static.lyrk.de/leaflet/0.7/leaflet.css" />
+		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<title>Mapillary2JOSM</title>
+		<style type="text/css">
+			#map {
+				height: 100%;
+				width: 70%;
+				position: absolute;
+				top: 0px;
+				right: 0px;
+				margin: 0px;
+			}
+
+			#ui {
+				height: 100%;
+				overflow: scroll;
+				width: 30%;
+				top: 0px;
+				left: 0px;
+				padding: 10px;
+			}
+
+			.panel {
+				margin-top: 10px;
+			}
+			 .panel li {
+			 	margin-left: -10px;
+			 }
+
+			 #info {
+			 	margin-top: 15px;
+			 }
+
+			 #logo {
+			 	left: 50%;
+			 	margin-left: -53px;
+			 	margin-bottom: 15px;
+			 	position: relative;
+			 }
+
+			html, body {
+				margin: 0px;
+				padding: 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="ui">
+			<img id="logo" src="./img/mapillaryOSM.png" />
+			<div class="input-group">
+				<input type="text" id="suche" class="form-control" />
+				<span class="input-group-btn">
+					<button class="btn btn-default" onclick="suchen();" type="button">Suchen</button>
+				</span>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<ul>
+						<li>Karte an die gewünschte Stelle schieben</li>
+						<li>GPX herunterladen</li>
+						<li>in JOSM öffnen</li>
+					</ul>
+				</div>
+			</div>
+			<div id="errormessage" class="alert alert-danger text-center">Download fehlgeschlagen. Bereich zu groß.</div>
+			<button type="button" id="downloadbutton" onclick="loadFromMap()" class="btn btn-primary btn-lg btn-block">Download GPX</button>
+			<div id="info">
+				Dieses Skript schreibt Bild-URLs von Mapillary Bildern in eine GPX-Datei, die man sich dann in JOSM laden kann, um aus den Bildern Informationen für OpenSteetMap zu gewinnen.<br><br>
+
+				Mapillary <a href="http://www.mapillary.com/osm.html">erlaubt die Nutzung der Bilder für OpenstreetMap</a>, um  Informationen abzuleiten. Informationen die man oft gut ablesen kann sind:
+				<ul>
+					<li>Geschwindigkeitsbegrenzungen</li>
+					<li>Abbiegebeschränkung</li>
+					<li>Wegbeschaffenheit</li>
+					<li>Briefkästen</li>
+					<li>Fahrkartenautomaten</li>
+					<li>Stockwerkanzahl von Gebäuden</li>
+				</ul>
+				Beachte bitte, dass die Bilder schon etwas älter sein können und sich in der zwischenzeit vor Ort etwas geändert haben kann. Auf der <a href="http://www.mapillary.com/">Mappilary Webseite</a> ist auch das Erstellungsdatum der Bilder zu finden. Um selber Bilder hochzuladen könnt ihr die <a href="https://itunes.apple.com/us/app/mapillary/id757286802?mt=8&amp;uo=4">iPhone App</a> oder die <a href="https://play.google.com/store/apps/details?id=app.mapillary">Android App</a> laden.
+			</div>
+		</div>
+		<div id="map"></div>
+	</body>
+</html>
