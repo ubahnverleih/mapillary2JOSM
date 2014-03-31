@@ -90,14 +90,15 @@ function addGeoJSON() {
 	geojsonLayer = new L.GeoJSON.AJAX("http://api.mapillary.com/v1/s/search?min-lat="+s+"&max-lat="+n+"&min-lon="+w+"&max-lon="+e+"&geojson=true",{
 			middleware:function(data){
 				//testen ob GeoJSON Objekt mit diesem Key schon gerendert wurde und wenn ja raus werfen. Sonst rendern und key in die Liste der gerenderten Objekte rein werfen
-				$.each(data, function (k, value){
-					key = data[k].properties.key;
+				$.each(data.features, function (k, value){
+					
+					key = data.features[k].properties.key;
 					if (idList.indexOf(key)==-1){
 						idList.push(key);
 					}
 					else {
 						//element wurde schon gerendert
-						data[k] = false;
+						data.features[k] = false;
 					}
 				});
 				return data;
