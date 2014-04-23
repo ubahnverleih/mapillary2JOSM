@@ -2,7 +2,7 @@
 idList = []; //Liste der schon in GeoJSON gerenderten IDs
 
 function loadMapillaryJSON (minlat, maxlat, minlon, maxlon) {
-	var APIURL = "https://api.mapillary.com/v1/im/search";
+	var APIURL = "https://api.mapillary.com/v1/s/search";
 	var parameter = {
 		"min-lat": minlat,
 		"max-lat": maxlat,
@@ -25,10 +25,12 @@ function loadMapillaryJSON (minlat, maxlat, minlon, maxlon) {
 function writeMapillaryGPX (data) {
 	var waypoints = "";
 	$.each(data, function (index, element){
-		waypoints += "\t<wpt lat=\"" + element.lat + "\" lon=\""+ element.lon + "\">\n";
-		waypoints += "\t\t<course>" + element.ca + "</course>\n";
-		waypoints += "\t\t<link href=\"" + element.map_image_versions[3].url + "\"/>\n";
-		waypoints += "\t</wpt>\n";
+		$.each(element.map_images, function (index, element){
+			waypoints += "\t<wpt lat=\"" + element.lat + "\" lon=\""+ element.lon + "\">\n";
+			waypoints += "\t\t<course>" + element.ca + "</course>\n";
+			waypoints += "\t\t<link href=\"" + element.versions["thumb-2048"] + "\"/>\n";
+			waypoints += "\t</wpt>\n";
+		});
 	});
 	var gpx = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\" ?>\n";
 	gpx += "<gpx version=\"1.1\" creator=\"mappilary2GPX\">\n"; 
@@ -63,7 +65,10 @@ function initleaflet (){
 		attribution: 'Bilder: <a href="http://www.mapillary.com/">Mapillary</a>, Karte: <a href="http://geodienste.lyrk.de/copyright">OpenStreetMap und andere</a>, Tiles by <a href="http://geodienste.lyrk.de/">Lyrk</a>',
 		maxZoom: 18
 	}).addTo(map);
-	map.on('moveend', function(){addGeoJSON();});
+	L.tileLayer('http://{s}.tiles.mapillary.com/{z}/{x}/{y}', {
+		maxZoom: 18
+	}).addTo(map);
+	//map.on('moveend', function(){addGeoJSON();});
 }
 
 function loadFromMap () {
