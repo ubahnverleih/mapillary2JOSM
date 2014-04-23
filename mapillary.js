@@ -142,6 +142,6 @@ $(function(){
 	});
 
 	//geoJSON initial laden
-	addGeoJSON();
+	//addGeoJSON();
 });
 
