@@ -65,10 +65,18 @@ function initleaflet (){
 		attribution: 'Bilder: <a href="http://www.mapillary.com/">Mapillary</a>, Karte: <a href="http://geodienste.lyrk.de/copyright">OpenStreetMap und andere</a>, Tiles by <a href="http://geodienste.lyrk.de/">Lyrk</a>',
 		maxZoom: 18
 	}).addTo(map);
-	L.tileLayer('http://{s}.tiles.mapillary.com/{z}/{x}/{y}', {
+	mapillaryTiles = L.tileLayer('http://{s}.tiles.mapillary.com/{z}/{x}/{y}', {
 		maxZoom: 18
 	}).addTo(map);
-	//map.on('moveend', function(){addGeoJSON();});
+	map.on('moveend', function(){
+		if (map.getZoom()>14){
+			addGeoJSON();
+			mapillaryTiles.setOpacity(0);
+		}
+		else {
+			mapillaryTiles.setOpacity(1);
+		}
+	});
 }
 
 function loadFromMap () {
